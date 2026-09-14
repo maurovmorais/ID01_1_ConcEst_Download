@@ -199,7 +199,7 @@ class LoopStation:
                             
 
                     #Chamando a classe KillAllProcesses em caso de erro de aplicação
-                    KillAllProcesses.execute()
+                    KillAllProcesses.execute('chrome.exe')
         
                     # Iniciando novamente o processamento
                     InitAllApplications.execute(first_run=False)

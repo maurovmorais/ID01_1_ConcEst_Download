@@ -135,7 +135,7 @@ def fazer_login_greenpass(
 
 def navegar_aba_estadia_taggy(driver: WebDriver) -> None:
     """
-    Navega até a aba Estadia do Taggy
+    Navega até a aba Transações
 
     """
     try:
