@@ -533,4 +533,5 @@ def processar_todos_credenciados(
         aguardar_valor_total_carregar(driver)
 
         valor_total = extrair_valor_total(driver)
+        valor_total = str(valor_total).replace(".",",")
         gravar_valor_credenciado(credenciado, valor_total, data_inicial, data_final)

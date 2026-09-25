@@ -11,6 +11,7 @@ from ID01_1_ConcEst_Download.classes.sites.semparar import fazer_login_semparar,
 from ID01_1_ConcEst_Download.classes.sites.greenpass import fazer_login_greenpass,navegar_aba_estadia_taggy
 from ID01_1_ConcEst_Download.classes.sites.conectcar import fazer_login_conectcar,navegar_aba_transacoes
 from ID01_1_ConcEst_Download.classes.utils.renomear_arquivo import renomear_arquivo_mais_recente
+from ID01_1_ConcEst_Download.classes.sites.cielo import fazer_login_cielo,navegar_aba_cielo
 
 # Imports dos pacotes externos
 from time import sleep
@@ -51,48 +52,55 @@ class Process:
         sleep(5)
 
         #Entra em cada site para fazer download de arquivos
+        renomear = False
         match adquirente:
             case 'VELOE':
-                Log.write_log('Entrando Site Veloe')
-                fazer_login_veloe(driver=cls.web_driver)
-                navegar_aba_repasse_lanc(driver=cls.web_driver)
-                #Renomear Arquivo
-                renomear_arquivo_mais_recente(pasta=InitAllSettings.config['arquivos_baixados'],novo_nome_base=adquirente)
+                # Log.write_log('Entrando Site Veloe')
+                # fazer_login_veloe(driver=cls.web_driver)
+                # navegar_aba_repasse_lanc(driver=cls.web_driver)
+                # renomear = True
                 pass
                 
             case 'GREENPASS':
-                Log.write_log('Entrando Site GreenPass')
-                fazer_login_greenpass(driver=cls.web_driver)
-                navegar_aba_estadia_taggy(driver=cls.web_driver)
-                #Renomear Arquivo
-                renomear_arquivo_mais_recente(pasta=InitAllSettings.config['arquivos_baixados'],novo_nome_base=adquirente)
+                # Log.write_log('Entrando Site GreenPass')
+                # fazer_login_greenpass(driver=cls.web_driver)
+                # navegar_aba_estadia_taggy(driver=cls.web_driver)
+                # renomear = True
                 pass
             
             case 'SEM PARAR':
                 Log.write_log('Entrando Site Sem Parar')
                 fazer_login_semparar(driver=cls.web_driver)
                 navegar_aba_transacoes_semparar(driver=cls.web_driver)
-                #Renomear Arquivo
-                renomear_arquivo_mais_recente(pasta=InitAllSettings.config['arquivos_baixados'],novo_nome_base=adquirente)
+                renomear = True
                 pass
 
             case 'CONECTCAR':
-                Log.write_log('Entrando Site Conectcar')
-                fazer_login_conectcar(driver=cls.web_driver)
-                navegar_aba_transacoes(driver=cls.web_driver)
-                #Renomear Arquivo
-                renomear_arquivo_mais_recente(pasta=InitAllSettings.config['arquivos_baixados'],novo_nome_base=adquirente)
+                # Log.write_log('Entrando Site Conectcar')
+                # fazer_login_conectcar(driver=cls.web_driver)
+                # navegar_aba_transacoes(driver=cls.web_driver)
+                # renomear = True
                 pass
 
             case 'BRADESCO':
-                Log.write_log('Entrando Site Bradesco')
+                # Log.write_log('Entrando Site Bradesco')
+                # renomear = True
                 pass
 
             case 'CIELO':
-                Log.write_log('Lendo Email')
+                # Log.write_log('Entrando Site Cielo')
+                # fazer_login_cielo(driver=cls.web_driver)
+                # navegar_aba_cielo(driver=cls.web_driver)
+                # renomear = True
+            
                 pass
-
+        
             case _:
                 Log.write_log("Opção inválida!") # Funciona como o 'default'
+
+        # #Renomear Arquivo
+        if renomear:
+            renomear_arquivo_mais_recente(pasta=InitAllSettings.config['arquivos_baixados'],novo_nome_base=adquirente)
+
 
         Log.write_log('Process Finished')

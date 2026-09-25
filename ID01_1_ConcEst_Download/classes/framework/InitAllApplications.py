@@ -37,6 +37,9 @@ class InitAllApplications:
         #Limpa fila remanescente
         QueueManager.abandon_queue()
 
+        #Limpar Tabela tbl_cred_semparar
+        QueueManager.delete_tbl_cred_semparar()
+
         #Limpar pasta download
         limpar_diretorio(Path(InitAllSettings.config['arquivos_baixados']))
 

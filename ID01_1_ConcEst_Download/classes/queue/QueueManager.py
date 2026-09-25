@@ -338,4 +338,34 @@ class QueueManager:
         
             cls.refresh_total_items_new()
 
+    @classmethod
+    def delete_tbl_cred_semparar(cls):
+        """
+        Limpa a tabela para garantir usar sempre dados atuais.
+        
+        Parâmetros:
+
+        Retorna:
+        """
+        try:
+            agora = datetime.now() 
+
+            with cls._connect() as sql_conn:
+                csr_cursor = sql_conn.cursor()
+
+                csr_cursor.execute(f"""DELETE FROM tbl_cred_semparar""")
+                
+                sql_conn.commit()
+        except Exception as err:
+            Log.write_log(
+                mensagem_log="Erro ao abandonar itens da fila: " + str(err),
+                log_level=LogLevel.ERROR,
+                error_type=ErrorType.APP_ERROR
+            )
+            raise err
+        finally:
+            if csr_cursor:
+                csr_cursor.close()
+
+
 QueueManager.refresh_total_items_new()
