@@ -28,6 +28,7 @@ from selenium.webdriver.common.keys import Keys
 from ID01_1_ConcEst_Download.classes.utils.CredentialWindows import obter_credencial_windows
 from ID01_1_ConcEst_Download.classes.framework.InitAllSettings import InitAllSettings
 from ID01_1_ConcEst_Download.classes.utils.util_data import obter_intervalo_ontem,obter_data_ontem
+from ID01_1_ConcEst_Download.classes.utils.tela_aviso_captcha import aguardar_resolucao_captcha
 
 logger = logging.getLogger(__name__)
 
@@ -108,9 +109,8 @@ def fazer_login_conectcar(
             senha_usuario.send_keys(senha)
             time.sleep(2)
 
-            #Não sou um robô
-            ##TODO colocar um anticaptcha aqui
-            print('Fazer manualmente')
+            # Exibe a mensagem na tela e aguarda confirmação do usuario
+            aguardar_resolucao_captcha()
 
             # Clicar em entrar
             botao_entrar = driver.find_element(By.XPATH,'//*[@id="FormAutenticar"]/div/div/article/section/div/div/div[2]/div[5]/input')

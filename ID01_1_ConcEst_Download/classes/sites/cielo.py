@@ -25,6 +25,7 @@ from selenium.webdriver.common.keys import Keys
 from ID01_1_ConcEst_Download.classes.utils.CredentialWindows import obter_credencial_windows
 from ID01_1_ConcEst_Download.classes.framework.InitAllSettings import InitAllSettings
 from ID01_1_ConcEst_Download.classes.utils.util_data import obter_intervalo_ontem
+from ID01_1_ConcEst_Download.classes.utils.tela_aviso_captcha import aguardar_resolucao_captcha
 
 logger = logging.getLogger(__name__)
 
@@ -99,8 +100,8 @@ def fazer_login_cielo(
             senha_usuario = driver.find_element(By.XPATH,'//*[@id="flui-input-v2-1"]/div/input')
             senha_usuario.send_keys(senha)
 
-            #Inserir captcha manualmente
-            print()
+            # Exibe a mensagem na tela e aguarda confirmação do usuario
+            aguardar_resolucao_captcha()
 
              # Clicar em entrar Apos senha
             botao_entrar = driver.find_element(By.XPATH,'//*[@id="bt-submit"]')
@@ -115,8 +116,14 @@ def fazer_login_cielo(
             botao_confirmar = driver.find_element(By.XPATH,'/html/body/app-root/app-login/main/section/app-login-form/div/div[1]/div/app-login-account/div/app-login-main/div[2]/app-code-send-selection/div/form/button')
             botao_confirmar.click()
 
-            #Buscar no Email
-            print()
+            # Exibe a mensagem na tela e aguarda confirmação do usuario
+            aguardar_resolucao_captcha()
+
+            #Clicar em verificar
+            time.sleep(1)
+            botao_verificar = driver.find_element(By.XPATH,'//*[@id="bt-verify"]')
+            botao_verificar.click()
+            
 
             # Confirma que o login foi bem-sucedido aguardando a URL sair
             # da tela de login (ajustar condição conforme comportamento

@@ -30,6 +30,7 @@ from ID01_1_ConcEst_Download.classes.utils.CredentialWindows import obter_creden
 from ID01_1_ConcEst_Download.classes.framework.InitAllSettings import InitAllSettings
 from ID01_1_ConcEst_Download.classes.utils.util_data import obter_intervalo_ontem,obter_data_ontem
 from ID01_1_ConcEst_Download.classes.excel.gerar_relat_semparar import exportar_tbl_cred_semparar_para_excel
+from ID01_1_ConcEst_Download.classes.utils.tela_aviso_captcha import aguardar_resolucao_captcha
 
 logger = logging.getLogger(__name__)
 
@@ -120,8 +121,9 @@ def fazer_login_semparar(
             senha_usuario = driver.find_element(By.XPATH,'//*[@id="mat-input-1"]')
             senha_usuario.send_keys(senha)
 
-            print("Inserir capctha manualmente")
-
+            # Exibe a mensagem na tela e aguarda confirmação do usuario
+            aguardar_resolucao_captcha()
+            
             # Clicar em entrar
             clicar_botao_entrar(driver)
 

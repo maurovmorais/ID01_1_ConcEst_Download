@@ -1,106 +1,100 @@
-# Imports dos módulos internos do projeto
-# Carrega o InitAllSettingssSettings Precisa ser o primeiro a ser carregado
+# O InitAllSettings precisa ser o primeiro a ser carregado
 from ID01_1_ConcEst_Download.classes.framework.InitAllSettings import InitAllSettings
-from ID01_1_ConcEst_Download.classes.utils.Log import Log, LogLevel, ErrorType
-from ID01_1_ConcEst_Download.classes.utils.Exceptions import BusinessRuleException
 from ID01_1_ConcEst_Download.classes.framework.GetTransaction import GetTransaction
-#FIXME Código Exemplo REMOVER
-from ID01_1_ConcEst_Download.classes.chrome.google.Homepage import GoogleHomepage
-from ID01_1_ConcEst_Download.classes.sites.veloe import fazer_login_veloe,navegar_aba_repasse_lanc
-from ID01_1_ConcEst_Download.classes.sites.semparar import fazer_login_semparar,navegar_aba_transacoes_semparar
-from ID01_1_ConcEst_Download.classes.sites.greenpass import fazer_login_greenpass,navegar_aba_estadia_taggy
-from ID01_1_ConcEst_Download.classes.sites.conectcar import fazer_login_conectcar,navegar_aba_transacoes
-from ID01_1_ConcEst_Download.classes.utils.renomear_arquivo import renomear_arquivo_mais_recente
-from ID01_1_ConcEst_Download.classes.sites.cielo import fazer_login_cielo,navegar_aba_cielo
+from ID01_1_ConcEst_Download.classes.utils.Log import Log
+from ID01_1_ConcEst_Download.classes.utils.Exceptions import BusinessRuleException
+from ID01_1_ConcEst_Download.classes.utils.renomear_arquivo import (
+    renomear_arquivo_mais_recente,
+)
+from ID01_1_ConcEst_Download.classes.sites.veloe import (
+    fazer_login_veloe,
+    navegar_aba_repasse_lanc,
+)
+from ID01_1_ConcEst_Download.classes.sites.semparar import (
+    fazer_login_semparar,
+    navegar_aba_transacoes_semparar,
+)
+from ID01_1_ConcEst_Download.classes.sites.greenpass import (
+    fazer_login_greenpass,
+    navegar_aba_estadia_taggy,
+)
+from ID01_1_ConcEst_Download.classes.sites.conectcar import (
+    fazer_login_conectcar,
+    navegar_aba_transacoes,
+)
+from ID01_1_ConcEst_Download.classes.sites.cielo import (
+    fazer_login_cielo,
+    navegar_aba_cielo,
+)
 
-# Imports dos pacotes externos
-from time import sleep
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+from dataclasses import dataclass
+from typing import Callable, Optional
+
+# TODO: remover antes de ir para produção (usado apenas em testes).
+# Com None, a adquirente vem do item da fila.
+ADQUIRENTE_TESTE: Optional[str] = None
 
 
-# Classe responsável pelo processamento principal, necessário preencher com o seu código no método execute
+@dataclass(frozen=True)
+class Adquirente:
+    """Etapas de download de uma adquirente.
+
+    Attributes:
+        nome_log: Nome exibido nos logs.
+        login: Função que faz login no site (None se não se aplica).
+        navegar: Função que navega até o relatório e baixa o arquivo.
+    """
+
+    nome_log: str
+    login: Optional[Callable[..., None]] = None
+    navegar: Optional[Callable[..., None]] = None
+
+
+ADQUIRENTES: dict[str, Adquirente] = {
+    'VELOE': Adquirente('Veloe', fazer_login_veloe, navegar_aba_repasse_lanc),
+    'GREENPASS': Adquirente(
+        'GreenPass', fazer_login_greenpass, navegar_aba_estadia_taggy
+    ),
+    'SEM PARAR': Adquirente(
+        'Sem Parar', fazer_login_semparar, navegar_aba_transacoes_semparar
+    ),
+    'CONECTCAR': Adquirente(
+        'Conectcar', fazer_login_conectcar, navegar_aba_transacoes
+    ),
+    # 'CIELO': Adquirente('Cielo', fazer_login_cielo, navegar_aba_cielo),
+    # 'BRADESCO': Adquirente('Bradesco'),  # TODO: login/navegação pendentes
+}
+
+
 class Process:
-    """
-    Classe responsável pelo processamento principal.
+    """Processamento principal: baixa o arquivo da adquirente do item da fila."""
 
-    Parâmetros:
-    
-    Retorna:
-    """
-    _config = InitAllSettings.config
-    
-    
-    #Parte principal do código, deve ser preenchida pelo desenvolvedor
-    #Acesse o item a ser processado pelo queue_item
     @classmethod
-    def execute(cls):
+    def execute(cls) -> None:
+        """Faz login, navega e baixa o relatório da adquirente do item atual.
+
+        Raises:
+            BusinessRuleException: Se a adquirente não for suportada.
         """
-        Método principal para execução do código.
-
-
-        Parâmetros:
-
-
-        Retorna:
-        """
-        cls.web_driver = InitAllSettings.web_driver
-
         Log.write_log('Process Started')
-        #Informa valor no campo de pesquisa
-        adquirente = GetTransaction.queue_item['info_adicionais']['adquirente']
-        sleep(5)
 
-        #Entra em cada site para fazer download de arquivos
-        renomear = False
-        match adquirente:
-            case 'VELOE':
-                # Log.write_log('Entrando Site Veloe')
-                # fazer_login_veloe(driver=cls.web_driver)
-                # navegar_aba_repasse_lanc(driver=cls.web_driver)
-                # renomear = True
-                pass
-                
-            case 'GREENPASS':
-                # Log.write_log('Entrando Site GreenPass')
-                # fazer_login_greenpass(driver=cls.web_driver)
-                # navegar_aba_estadia_taggy(driver=cls.web_driver)
-                # renomear = True
-                pass
-            
-            case 'SEM PARAR':
-                Log.write_log('Entrando Site Sem Parar')
-                fazer_login_semparar(driver=cls.web_driver)
-                navegar_aba_transacoes_semparar(driver=cls.web_driver)
-                renomear = True
-                pass
+        driver = InitAllSettings.web_driver
+        info = GetTransaction.queue_item['info_adicionais']
+        adquirente = ADQUIRENTE_TESTE or str(info['adquirente']).strip().upper()
 
-            case 'CONECTCAR':
-                # Log.write_log('Entrando Site Conectcar')
-                # fazer_login_conectcar(driver=cls.web_driver)
-                # navegar_aba_transacoes(driver=cls.web_driver)
-                # renomear = True
-                pass
+        etapas = ADQUIRENTES.get(adquirente)
+        if etapas is None:
+            raise BusinessRuleException(f'Adquirente inválida: {adquirente}')
 
-            case 'BRADESCO':
-                # Log.write_log('Entrando Site Bradesco')
-                # renomear = True
-                pass
+        Log.write_log(f'Entrando Site {etapas.nome_log}')
+        if etapas.login:
+            etapas.login(driver=driver)
+        if etapas.navegar:
+            etapas.navegar(driver=driver)
 
-            case 'CIELO':
-                # Log.write_log('Entrando Site Cielo')
-                # fazer_login_cielo(driver=cls.web_driver)
-                # navegar_aba_cielo(driver=cls.web_driver)
-                # renomear = True
-            
-                pass
-        
-            case _:
-                Log.write_log("Opção inválida!") # Funciona como o 'default'
-
-        # #Renomear Arquivo
-        if renomear:
-            renomear_arquivo_mais_recente(pasta=InitAllSettings.config['arquivos_baixados'],novo_nome_base=adquirente)
-
+        renomear_arquivo_mais_recente(
+            pasta=InitAllSettings.config['arquivos_baixados'],
+            novo_nome_base=adquirente,
+        )
 
         Log.write_log('Process Finished')
