@@ -22,15 +22,15 @@ from ID01_1_ConcEst_Download.classes.sites.conectcar import (
     fazer_login_conectcar,
     navegar_aba_transacoes,
 )
-from ID01_1_ConcEst_Download.classes.sites.cielo import (
-    fazer_login_cielo,
-    navegar_aba_cielo,
-)
+
+from ID01_1_ConcEst_Download.classes.sites import cielo_email
+
+from ID01_1_ConcEst_Download.classes.sites import bradesco_email
 
 from dataclasses import dataclass
 from typing import Callable, Optional
 
-# TODO: remover antes de ir para produção (usado apenas em testes).
+
 # Com None, a adquirente vem do item da fila.
 ADQUIRENTE_TESTE: Optional[str] = None
 
@@ -61,7 +61,13 @@ ADQUIRENTES: dict[str, Adquirente] = {
     'CONECTCAR': Adquirente(
         'Conectcar', fazer_login_conectcar, navegar_aba_transacoes
     ),
-    # 'CIELO': Adquirente('Cielo', fazer_login_cielo, navegar_aba_cielo),
+    'CIELO': Adquirente(
+        'Cielo', navegar=lambda driver: cielo_email.buscar_arquivos_email()
+    ),
+
+    'BRADESCO': Adquirente(
+        'Bradesco', navegar=lambda driver: bradesco_email.buscar_email_bradesco()
+    ),
     # 'BRADESCO': Adquirente('Bradesco'),  # TODO: login/navegação pendentes
 }
 
@@ -92,6 +98,7 @@ class Process:
         if etapas.navegar:
             etapas.navegar(driver=driver)
 
+        
         renomear_arquivo_mais_recente(
             pasta=InitAllSettings.config['arquivos_baixados'],
             novo_nome_base=adquirente,

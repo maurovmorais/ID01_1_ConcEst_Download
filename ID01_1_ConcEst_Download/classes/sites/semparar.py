@@ -218,9 +218,9 @@ def navegar_aba_transacoes_semparar(driver: WebDriver) -> None:
         #Informar o Grupo
         campo_grupo = driver.find_element(By.XPATH,'/html/body/app-root/app-layout/mat-sidenav-container/mat-sidenav-content/main/div/mat-drawer-container/mat-drawer-content/ng-component/div/ng-component/div/form/div[1]/div[3]/div/div[2]/div[1]/div[1]/auto-complete/mat-form-field/div[1]/div/div[2]/mat-select/div')
         campo_grupo.click()
-        time.sleep(1)
-        botao_todos_crend = driver.find_element(By.XPATH,'/html/body/div[4]/div[2]/div/div/mat-option[1]/span')
-        botao_todos_crend.click()
+        time.sleep(2)
+        botao_todos_crend = driver.find_element(By.XPATH,'/html/body/div[4]/div[2]/div/div/mat-option[1]')
+        botao_todos_crend.click()                         
 
         #Pegar Valor total para cada credenciado
         expandir_campo_credenciado = driver.find_element(By.XPATH,'/html/body/app-root/app-layout/mat-sidenav-container/mat-sidenav-content/main/div/mat-drawer-container/mat-drawer-content/ng-component/div/ng-component/div/form/div[1]/div[3]/div/div[2]/div[1]/div[2]/auto-complete/mat-form-field/div[1]/div/div[2]/mat-select/div')

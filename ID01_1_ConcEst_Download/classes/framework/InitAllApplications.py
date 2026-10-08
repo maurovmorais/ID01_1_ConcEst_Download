@@ -44,7 +44,10 @@ class InitAllApplications:
         limpar_diretorio(Path(InitAllSettings.config['arquivos_baixados']))
 
         #Lista dos adquirentes
-        adquirente_lista = ['CIELO','SEM PARAR','VELOE','GREENPASS','CONECTCAR','BRADESCO']
+        adquirente_lista = ['SEM PARAR','VELOE','CONECTCAR','GREENPASS','BRADESCO','CIELO']
+
+        #Para testar com um adquirente descomente e informe o adquirente
+        #adquirente_lista = ['BRADESCO']
 
         for adquirente in adquirente_lista:
             referencia_adq = adquirente
