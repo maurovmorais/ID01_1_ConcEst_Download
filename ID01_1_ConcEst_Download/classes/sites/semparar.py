@@ -28,6 +28,7 @@ from selenium.webdriver.common.keys import Keys
 
 from ID01_1_ConcEst_Download.classes.utils.CredentialWindows import obter_credencial_windows
 from ID01_1_ConcEst_Download.classes.framework.InitAllSettings import InitAllSettings
+from ID01_1_ConcEst_Download.classes.utils.Log import Log
 from ID01_1_ConcEst_Download.classes.utils.util_data import obter_intervalo_ontem,obter_data_ontem
 from ID01_1_ConcEst_Download.classes.excel.gerar_relat_semparar import exportar_tbl_cred_semparar_para_excel
 from ID01_1_ConcEst_Download.classes.utils.tela_aviso_captcha import aguardar_resolucao_captcha
@@ -219,7 +220,7 @@ def navegar_aba_transacoes_semparar(driver: WebDriver) -> None:
         campo_grupo = driver.find_element(By.XPATH,'/html/body/app-root/app-layout/mat-sidenav-container/mat-sidenav-content/main/div/mat-drawer-container/mat-drawer-content/ng-component/div/ng-component/div/form/div[1]/div[3]/div/div[2]/div[1]/div[1]/auto-complete/mat-form-field/div[1]/div/div[2]/mat-select/div')
         campo_grupo.click()
         time.sleep(2)
-        botao_todos_crend = driver.find_element(By.XPATH,'/html/body/div[4]/div[2]/div/div/mat-option[1]')
+        botao_todos_crend = driver.find_element(By.XPATH,'//*[@id="mat-option-16"]')
         botao_todos_crend.click()                         
 
         #Pegar Valor total para cada credenciado

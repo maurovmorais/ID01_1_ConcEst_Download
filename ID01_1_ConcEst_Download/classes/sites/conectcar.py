@@ -25,6 +25,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.keys import Keys
 
+from ID01_1_ConcEst_Download.classes.utils import Log
 from ID01_1_ConcEst_Download.classes.utils.CredentialWindows import obter_credencial_windows
 from ID01_1_ConcEst_Download.classes.framework.InitAllSettings import InitAllSettings
 from ID01_1_ConcEst_Download.classes.utils.util_data import obter_intervalo_ontem,obter_data_ontem
