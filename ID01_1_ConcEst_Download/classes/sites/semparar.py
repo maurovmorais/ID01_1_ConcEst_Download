@@ -210,7 +210,7 @@ def navegar_aba_transacoes_semparar(driver: WebDriver) -> None:
         
         #Expandir Calendario
         time.sleep(3)
-        expandir_calendario = driver.find_element(By.XPATH,'/html/body/app-root/app-layout/mat-sidenav-container/mat-sidenav-content/main/div/mat-drawer-container/mat-drawer-content/ng-component/div/ng-component/div/form/div[1]/div[1]/div/div[2]/div[1]/mat-form-field/div[1]/div/div[3]/mat-datepicker-toggle/button/span[3]')
+        expandir_calendario = driver.find_element(By.CSS_SELECTOR, "mat-datepicker-toggle button")
         expandir_calendario.click()
 
         #Preenche campo data
@@ -220,7 +220,7 @@ def navegar_aba_transacoes_semparar(driver: WebDriver) -> None:
         campo_grupo = driver.find_element(By.XPATH,'/html/body/app-root/app-layout/mat-sidenav-container/mat-sidenav-content/main/div/mat-drawer-container/mat-drawer-content/ng-component/div/ng-component/div/form/div[1]/div[3]/div/div[2]/div[1]/div[1]/auto-complete/mat-form-field/div[1]/div/div[2]/mat-select/div')
         campo_grupo.click()
         time.sleep(2)
-        botao_todos_crend = driver.find_element(By.XPATH,'//*[@id="mat-option-16"]')
+        botao_todos_crend = driver.find_element(By.CSS_SELECTOR, ".cdk-overlay-container mat-option:first-of-type")
         botao_todos_crend.click()                         
 
         #Pegar Valor total para cada credenciado
