@@ -507,9 +507,12 @@ def gravar_valor_credenciado(
             (credenciado, valor_total, data_periodo, ultima_atualizacao),
         )
         conexao.commit()
+
         logger.info(
-            "Valor gravado: %s -> R$ %.2f (%s)",
-            credenciado, valor_total, data_periodo,
+            'Valor gravado: %s -> R$ %s (%s)',
+            credenciado,
+            valor_total,
+            data_periodo,
         )
     finally:
         conexao.close()

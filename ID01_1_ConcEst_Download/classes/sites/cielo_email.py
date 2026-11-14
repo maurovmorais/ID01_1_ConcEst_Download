@@ -408,6 +408,3 @@ def buscar_arquivos_email() -> int:
     finally:
         sessao.close()
 
-
-# if __name__ == "__main__":
-#     raise SystemExit(buscar_arquivos_email())

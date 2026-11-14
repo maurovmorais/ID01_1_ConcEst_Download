@@ -15,6 +15,7 @@ from ID01_1_ConcEst_Download.classes.dados_execucao.DadosExecucao import DadosEx
 from ID01_1_ConcEst_Download.classes.email.send.SendEmail import SendEmail
 from ID01_1_ConcEst_Download.classes.email.send.SendEmailOutlook import SendEmailOutlook
 from ID01_1_ConcEst_Download.classes.utils.BackupSqlite import BackupSQLite
+from ID01_1_ConcEst_Download.classes.email.send.Sendemailgraph import SendEmailGraph
 
 
 # Imports dos pacotes externos
@@ -53,7 +54,7 @@ class Initialization:
             # DESCOMENTAR EM DESENVOLVIMENTO, apenas o que for necessário
             #SendEmail.configure_email(email_server_smtp="", email_porta_smtp=0, usuario="", senha="")
 
-            # SendEmailOutlook.configure_email()
+            #SendEmailOutlook.configure_email()
 
             # Executar Robot Stream
             if(InitAllSettings.config["IniciarRobotStream"].upper() == "SIM"):
@@ -73,8 +74,16 @@ class Initialization:
             
             # Enviando email de inicialização
             if(InitAllSettings.config["EmailInicial"].upper() == "SIM"):
-                SendEmail.send_email_inicial(envio_para=InitAllSettings.config["EmailDestinatarios"])
+                pass
+                #SendEmail.send_email_inicial(envio_para=InitAllSettings.config["EmailDestinatarios"])
                 #SendEmailOutlook.send_email_inicial(envio_para=InitAllSettings.config["EmailDestinatarios"])
+
+                # SendEmailGraph.enviar_email(
+                #     destinatarios=InitAllSettings.config["EmailDestinatarios"],
+                #     assunto="...",
+                #     corpo_html="<p>...</p>",
+                #     # cc=[...], anexos=[r"C:\...\arquivo.xlsx"]  # opcionais
+                # )
 
 
             # Se for indicado que é necessário Gravar a tela do processo, inicia aqui.

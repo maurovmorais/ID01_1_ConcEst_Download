@@ -119,7 +119,7 @@ class LoopStation:
                     
 
                     # Chamando a classe KillAllProcesses em caso de erro de business
-                    KillAllProcesses.execute(['chrome.exe'])
+                    #KillAllProcesses.execute()
                     
                     #Marcando item como erro de business
                     QueueManager.update_status_item(excecao=err, obs=err.__str__())
